@@ -15,8 +15,8 @@ class TestApi():
         return response.text
 
     @pytest.mark.sqrt
-    def test_sqrt_response(self):
-        assert float(self.sqrt_response(value='48', precision='3')) == round(sqrt(48),2)
+    def test_sqrt_response(self, rounding_index):
+        assert float(self.sqrt_response(value='48', precision=rounding_index)) == round(sqrt(48),int(rounding_index)-1)
     
     @pytest.mark.sqrt_empty
     def test_sqrt_empty_response(self):
@@ -28,25 +28,25 @@ class TestApi():
         return response
     
     @pytest.mark.plus
-    def test_plus_response(self):
-        test_dict = json.loads(self.post_response('+', 1, 2))
+    def test_plus_response(self, rounding_index):
+        test_dict = json.loads(self.post_response('+', 1, 2, precision=int(rounding_index)))
         assert test_dict['result'] == str(3)
         assert test_dict['error'] == None
     
     @pytest.mark.multiple
-    def test_multiple_response(self):
-        test_dict = json.loads(self.post_response('*', 1, 2))
+    def test_multiple_response(self, rounding_index):
+        test_dict = json.loads(self.post_response('*', 1, 2, precision=int(rounding_index)))
         assert test_dict['result'] == str(2)
         assert test_dict['error'] == None
     
     @pytest.mark.divide
-    def test_divide_response(self):
-        test_dict = json.loads(self.post_response('/', 1, 3, precision=3))
-        assert test_dict['result'] == str(round(1/3, 3))
+    def test_divide_response(self, rounding_index):
+        test_dict = json.loads(self.post_response('/', 1, 3, precision=int(rounding_index)))
+        assert test_dict['result'] == str(round(1/3, int(rounding_index)))
         assert test_dict['error'] == None
     
     @pytest.mark.subtract
-    def test_subtract_response(self):
-        test_dict = json.loads(self.post_response('-', 1, 3))
+    def test_subtract_response(self, rounding_index):
+        test_dict = json.loads(self.post_response('-', 1, 3, precision=int(rounding_index)))
         assert test_dict['result'] == str(1-3)
         assert test_dict['error'] == None
