@@ -1,7 +1,9 @@
 import pytest
 
+
 def pytest_addoption(parser):
     parser.addoption("--rounding_index", action="store")
+
 
 @pytest.fixture(scope='session')
 def rounding_index(request):
